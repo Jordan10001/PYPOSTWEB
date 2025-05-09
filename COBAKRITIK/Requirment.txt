@@ -1,0 +1,4 @@
+pip install flask-cors
+pip install flask
+pip install jason
+pip install psycopg2
