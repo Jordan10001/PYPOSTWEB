@@ -1,9 +1,9 @@
 import psycopg2
 
 DB_HOST = 'localhost'
-DB_NAME = 'pythonpost'
+DB_NAME = 'postgrename'
 DB_USER = 'postgres'
-DB_PASS = 'admin'
+DB_PASS = 'Password'
 
 def get_connection():
     try:
