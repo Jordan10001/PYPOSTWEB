@@ -3,8 +3,8 @@ from flask_cors import CORS  # Import Flask-CORS
 from db import insert_kritik, get_connection  # Import fungsi dari db.py
 
 app = Flask(__name__)
-CORS(app)
-
+# CORS(app)
+CORS(app, resources={r"/submit": {"origins": "sesui web"}})
 
 get_connection()
 
@@ -14,7 +14,8 @@ def submit():
     if request.method == 'OPTIONS':
         # Manual response to preflight
         response = make_response()
-        response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
+        response.headers['Access-Control-Allow-Origin'] = 'sesuai web'
+        # response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:5500'
         response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
         response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
         return response
