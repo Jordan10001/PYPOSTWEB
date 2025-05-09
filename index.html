@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Kritik</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Form Kritik</h2>
+        <form id="kritikForm">
+            <input type="text" id="nama" placeholder="Nama" required><br>
+            <input type="email" id="email" placeholder="Email" required><br>
+            <textarea id="kritik" placeholder="Tuliskan kritik Anda..." required></textarea><br>
+            <button type="submit">Kirim</button>
+        </form>
+
+        <p id="status"></p>
+    </div>
+
+    <script>
+        // Event listener untuk form submit
+        document.getElementById("kritikForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const nama = document.getElementById("nama").value;
+            const email = document.getElementById("email").value;
+            const kritik = document.getElementById("kritik").value;
+
+            try {
+                // Mengirim data ke backend Flask
+                const response = await fetch("http://localhost:5000/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ nama, email, kritik })
+                });
+
+                // Memeriksa apakah respons sukses atau error
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById("status").textContent = "Kritik berhasil dikirim!";
+                    document.getElementById("kritikForm").reset();  // Reset form
+                } else {
+                    document.getElementById("status").textContent = "Gagal mengirim kritik: " + result.message;
+                }
+            } catch (error) {
+                document.getElementById("status").textContent = "Terjadi kesalahan: " + error.message;
+            }
+        });
+    </script>
+
+</body>
+</html>
